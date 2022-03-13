@@ -1,10 +1,10 @@
 use bevy::prelude::*;
 use bevy_prototype_lyon::prelude::*;
 
-const CELL_STARTING_RADIUS: f32 = 20.0;
+const CELL_STARTING_RADIUS: f32 = 10.0;
 const CELL_BORDER_THICKNESS: f32 = 2.0;
 const CELL_FILL_COLOR: Color = Color::CYAN;
-const CELL_BORDER_COLOR: Color = Color::BLACK;
+const CELL_BORDER_COLOR: Color = Color::DARK_GRAY;
 
 fn spawn_cell(mut commands: Commands) {
     let circle = shapes::Circle {

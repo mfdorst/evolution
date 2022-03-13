@@ -1,9 +1,9 @@
 use bevy::prelude::*;
 use bevy_prototype_lyon::prelude::*;
 
-const GRID_HEIGHT: i32 = 80;
-const GRID_WIDTH: i32 = 120;
-const GRID_CELL_SIZE: f32 = 10.0;
+const GRID_HEIGHT: i32 = 40;
+const GRID_WIDTH: i32 = 60;
+const GRID_CELL_SIZE: f32 = 40.0;
 const GRID_CELL_BORDER_THICKNESS: f32 = 1.0;
 const GRID_CELL_FILL_COLOR: Color = Color::GRAY;
 const GRID_CELL_BORDER_COLOR: Color = Color::DARK_GRAY;
@@ -24,7 +24,7 @@ fn spawn_grid(mut commands: Commands) {
                         GRID_CELL_BORDER_THICKNESS,
                     ),
                 },
-                Transform::from_xyz((x * 10) as f32, (y * 10) as f32, 0.0),
+                Transform::from_xyz(x as f32 * GRID_CELL_SIZE, y as f32 * GRID_CELL_SIZE, 0.0),
             ));
         }
     }
