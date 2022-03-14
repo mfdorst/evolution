@@ -36,8 +36,8 @@ impl Brain {
         let mut rng = rand::thread_rng();
         for _ in 0..num_synapses {
             synapses.push(Synapse {
-                weight: rng.gen_range(0.0..1.0),
-                bias: rng.gen_range(0.0..1.0),
+                weight: rng.gen_range(-1.0..1.0),
+                bias: rng.gen_range(-1.0..1.0),
             });
         }
         Brain { synapses }
@@ -150,8 +150,8 @@ fn update_network(
     mut brain_query: Query<(&Brain, &mut BrainVisual)>,
     mut neuron_query: Query<(&mut DrawMode, Entity), With<Neuron>>,
 ) {
-    for (brain, mut brain_visual) in brain_query.iter_mut() {
-        let network_input = vec![0.0; LAYER_SIZE];
+    for (brain, brain_visual) in brain_query.iter_mut() {
+        let network_input = vec![0.5; LAYER_SIZE];
         let neuron_values = brain.compute_network(network_input);
         for (&neuron_value, entity) in neuron_values
             .iter()
@@ -159,15 +159,15 @@ fn update_network(
             .zip(brain_visual.neurons.clone())
         {
             match neuron_query.get_mut(entity).map(|(dm, _)| dm.into_inner()) {
-                Ok(draw_mode) => match draw_mode {
-                    DrawMode::Outlined {
-                        fill_mode,
-                        outline_mode: _,
-                    } => {
-                        fill_mode.color = Color::rgb(neuron_value, neuron_value, neuron_value);
-                    }
-                    _ => {}
-                },
+                Ok(DrawMode::Outlined {
+                    fill_mode,
+                    outline_mode: _,
+                }) => {
+                    fill_mode.color = Color::rgb(neuron_value, neuron_value, neuron_value);
+                }
+                Ok(_) => {
+                    println!("Expected draw mode to be Outlined")
+                }
                 Err(e) => {
                     println!("Query error: {e}");
                 }
